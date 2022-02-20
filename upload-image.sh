@@ -7,7 +7,10 @@ fi
 
 cd /Users/choeeungi/PycharmProjects/github-image-uploader
 
+files=$(/usr/local/bin/python3 /Users/choeeungi/PycharmProjects/github-image-uploader/path_parser.py $@)
+
 echo Upload Success:
-for i in "$@"; do
+
+for i in $files; do
   echo $(/usr/local/bin/python3 /Users/choeeungi/PycharmProjects/github-image-uploader/main.py $i)
 done
