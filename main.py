@@ -1,6 +1,7 @@
 import datetime
 import json
-from sys import argv
+import sys
+from sys import argv, exit
 
 import requests
 import base64
@@ -44,10 +45,13 @@ class GithubApiRequest:
         return headers
 
     def body_request(self):
-        with open(self.image_path, 'rb') as img:
-            encoded_image = base64.b64encode(img.read())
+        try:
+            with open(self.image_path, 'rb') as img:
+                encoded_image = base64.b64encode(img.read())
+        except FileNotFoundError as e:
+            exit(3)
 
-        body = {"message": "hello",
+        body = {"message": "image upload - " + str(datetime.datetime.now()),
                 "content": encoded_image,
                 "branch": self.branch
                 }
