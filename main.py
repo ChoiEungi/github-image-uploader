@@ -1,6 +1,6 @@
 import datetime
 import json
-import sys
+from urllib import parse
 from sys import argv, exit
 
 import requests
@@ -49,6 +49,7 @@ class GithubApiRequest:
             with open(self.image_path, 'rb') as img:
                 encoded_image = base64.b64encode(img.read())
         except FileNotFoundError as e:
+            print(e)
             exit(3)
 
         body = {"message": "image upload - " + str(datetime.datetime.now()),
@@ -70,6 +71,6 @@ if __name__ == "__main__":
         print("usage: python3 main.py {image_path}")
         exit(1)
 
-    image_path = argv[1]
+    image_path = parse.unquote(argv[1])
     api_request = GithubApiRequest(image_path=image_path, owner="ChoiEungi", repository_name="git-blog-image", branch="upload")
     print(api_request.get_image_url_from_response())
